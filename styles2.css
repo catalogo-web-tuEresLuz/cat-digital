@@ -1,0 +1,329 @@
+/* DESIGN SYSTEM: APPLE SANS-SERIF
+   Standards: WCAG 2.1 AA Compliant (Contrast)
+*/
+
+:root {
+    /* Color Palette - High Contrast for Accessibility */
+    --ios-bg: #FBFBFD;           
+    --ios-card: #FFFFFF;
+    --brand-blue: #2A5668;       
+    --brand-gold: #A6833D;       /* Oscurecido para cumplir contraste WCAG sobre blanco */
+    --text-primary: #1D1D1F;     
+    --text-secondary: #6E6E73;   
+    
+    /* Typography Tokens */
+    --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    
+    /* Motion & Elevation */
+    --ease-ios: cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+    --transition: all 0.4s var(--ease-ios);
+}
+
+/* Base Optimization */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-main);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    background-color: var(--ios-bg);
+    color: var(--text-primary);
+    line-height: 1.47059;
+    overflow-x: hidden;
+}
+
+/* Banner: LCP Optimization (Largest Contentful Paint) */
+.banner {
+    width: 100%;
+    min-height: 200px;
+    background-color: var(--brand-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    content-visibility: auto; /* Browser Optimization */
+}
+
+/* Header: Glassmorphism & Search SEO */
+.header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(251, 251, 253, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+}
+
+.buscador-container {
+    padding: 8px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.buscador {
+    width: 100%;
+    height: 44px; /* Apple Touch Target Standard */
+    padding: 0 16px;
+    font-size: 17px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.04);
+    transition: var(--transition);
+}
+
+.buscador:focus {
+    outline: 2px solid var(--brand-blue);
+    background: var(--ios-card);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Categories: Micro-interactions */
+.categorias {
+    display: flex;
+    gap: 12px;
+    padding: 12px 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.categorias::-webkit-scrollbar { display: none; }
+
+.categorias button {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.categorias button.activa {
+    background: var(--text-primary);
+    color: #FFFFFF;
+}
+
+/* Products Grid: Responsive & Layout Shift Prevention */
+.productos {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    padding: 24px 20px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) { .productos { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 900px) { .productos { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { 
+    .productos { 
+        grid-template-columns: repeat(2, 1fr); 
+        padding: 16px 12px;
+        gap: 12px;
+    } 
+}
+
+/* Card: Image Fix & Hover */
+.card {
+    background: var(--ios-card);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    will-change: transform;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* FIX IMÁGENES: Aseguramos visibilidad */
+.imagenes {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    background-color: #F5F5F7; /* Placeholder color */
+    overflow: hidden;
+}
+
+.imagenes img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Cambiado de cover a contain para no cortar productos */
+    opacity: 1; /* Aseguramos que no estén transparentes */
+    transition: opacity 0.3s ease;
+}
+
+/* Info Section: SEO & Semantics */
+.card .info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-grow: 1;
+}
+
+.card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.9em;
+}
+
+.codigo {
+    font-size: 11px;
+    color: var(--brand-gold);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.stock {
+    font-size: 12px;
+    color: #248A3D;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Button: Apple Action Style */
+.btn-whatsapp {
+    margin: 8px 0 0 0;
+    padding: 10px;
+    background: var(--text-primary);
+    color: #FFFFFF;
+    text-align: center;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.btn-whatsapp:hover {
+    opacity: 0.9;
+}
+
+/* Footer: Minimalist Apple Style */
+.footer {
+    position: relative;
+    padding: 80px 20px 40px;
+    background: linear-gradient(135deg, #1f4555, #2A5668);
+    display: flex;
+    justify-content: center;
+}
+
+/* =========================
+   BOTONES LATERALES
+========================= */
+.side-social {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.35);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.side-social svg {
+    width: 26px;
+    height: 26px;
+    fill: white;
+}
+
+.side-social:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Izquierda */
+.side-social.instagram {
+    left: 18px;
+    background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af);
+}
+
+/* Derecha */
+.side-social.tiktok {
+    right: 18px;
+    background: linear-gradient(135deg, #000000, #222222);
+}
+
+/* =========================
+   TARJETA
+========================= */
+.footer-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 36px 24px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+}
+
+.footer-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.footer-item {
+    font-size: 15px;
+    color: #e6f2f6;
+    margin-bottom: 10px;
+}
+
+.footer-horarios {
+    line-height: 1.5;
+}
+
+.footer-copy {
+    margin-top: 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+}
+
+.footer-link {
+    color: #7dd3fc;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
